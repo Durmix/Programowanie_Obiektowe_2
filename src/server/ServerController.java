@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.ListView;
 
+import static javafx.collections.FXCollections.observableArrayList;
+
 public class ServerController {
 
     private String activeDisc = "Disc 1";
@@ -67,7 +69,7 @@ public class ServerController {
         if (user == null) {
             return;
         }
-        ObservableList<String> items;
+        ObservableList<String> files = observableArrayList();
     }
 
 }
