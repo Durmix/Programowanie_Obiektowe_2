@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.ListView;
 
+
+import java.util.List;
+
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class ServerController {
@@ -22,7 +25,7 @@ public class ServerController {
     private ListView<String> activeUsers;
 
     @FXML
-    private ListView userFiles;
+    private ListView<String> userFiles;
 
     @FXML
     private MenuButton discSwitchButton;
@@ -70,6 +73,16 @@ public class ServerController {
             return;
         }
         ObservableList<String> files = observableArrayList();
+        files.addAll(utils.Tools.GetAllFilesInDirectory(basePath + activeDisc + "\\" + user + "\\"));
+        userFiles.setItems(files);
+        System.out.println(basePath + activeDisc + "\\" + user + "\\");
+    }
+
+    @FXML
+    private void displayUsers(List<String> loggedUsers) {
+        ObservableList<String> users = observableArrayList();
+        users.addAll(loggedUsers);
+        activeUsers.setItems(users);
     }
 
 }
