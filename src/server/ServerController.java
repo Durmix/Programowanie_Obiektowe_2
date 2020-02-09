@@ -3,8 +3,11 @@ package server;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
+import utils.Tools;
 
 
 import java.util.List;
@@ -29,6 +32,9 @@ public class ServerController {
 
     @FXML
     private MenuButton discSwitchButton;
+
+    @FXML
+    Button closeButton;
 
     @FXML
     private void pickDiscOne() {
@@ -73,16 +79,22 @@ public class ServerController {
             return;
         }
         ObservableList<String> files = observableArrayList();
-        files.addAll(utils.Tools.GetAllFilesInDirectory(basePath + activeDisc + "\\" + user + "\\"));
+        files.addAll(Tools.GetAllFilesInDirectory(basePath + activeDisc + "\\" + user + "\\"));
         userFiles.setItems(files);
         System.out.println(basePath + activeDisc + "\\" + user + "\\");
     }
 
     @FXML
-    private void displayUsers(List<String> loggedUsers) {
+    protected void displayUsers(List<String> loggedUsers) {
         ObservableList<String> users = observableArrayList();
         users.addAll(loggedUsers);
         activeUsers.setItems(users);
+    }
+
+    @FXML
+    private void closeButtonAction() {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 
 }

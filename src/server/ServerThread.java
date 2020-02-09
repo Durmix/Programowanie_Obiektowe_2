@@ -1,5 +1,6 @@
 package server;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -39,20 +40,28 @@ public class ServerThread {
         availableUsers = new ArrayList<>();
 
         this.threads = threads;
-        threads.submit(this::clientsConnectionManager);
+        threads.submit(this::connectionManager);
     }
 
-    private void clientsConnectionManager() {
+    private void connectionManager() {
         while (true) {
             try {
                 System.out.println("Connecting...");
-                Socket check = socket.accept();
-                ObjectOutputStream outputStream = new ObjectOutputStream(check.getOutputStream());
-                ObjectInputStream inputStream = new ObjectInputStream(check.getInputStream());
+                Socket connecting = socket.accept();
+                ObjectOutputStream outputStream = new ObjectOutputStream(connecting.getOutputStream());
+                ObjectInputStream inputStream = new ObjectInputStream(connecting.getInputStream());
 
                 String userName = inputStream.readObject().toString();
                 System.out.println("Connected with " + userName);
                 availableUsers.add(userName);
+                for (String path : discsPaths) {
+                    File directory = new File(path + "\\" + userName);
+                    if (!directory.exists() || !directory.isDirectory()) {
+                        directory.mkdir();
+                    }
+                }
+                ServerSynchronizer synchronizer = new ServerSynchronizer(outputStream, inputStream, threads, discsPaths, userName, connecting, availableUsers);
+                threads.submit(synchronizer::synchronizeLocalWithServer);
             } catch (Exception e) {
                 e.printStackTrace();
             }
