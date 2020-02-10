@@ -56,7 +56,7 @@ public class ServerMain extends Application {
         mainPage.show();
         availableUsers = Tools.GetAllFilesInDirectory(discsPaths[0]);
         controller.displayUsers(availableUsers);
-        threads.submit(this::folderManager);
+        threads.submit(this::directoryManager);
         server.init(1337, threads);
     }
 
@@ -76,7 +76,7 @@ public class ServerMain extends Application {
         }
     }
 
-    private void folderManager() {
+    private void directoryManager() {
         Path directory = Paths.get(discsPaths[0]);
         try {
             WatchService watchService = directory.getFileSystem().newWatchService();
@@ -87,7 +87,7 @@ public class ServerMain extends Application {
                 Thread.sleep(25);
                 List<WatchEvent<?>> eventList = watchKey.pollEvents();
                 for (WatchEvent event : eventList) {
-                    if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE || event.kind() == StandardWatchEventKinds.ENTRY_DELETE) {
+                    if (event.kind().equals(StandardWatchEventKinds.ENTRY_CREATE) || event.kind().equals(StandardWatchEventKinds.ENTRY_DELETE)) {
                         availableUsers = Tools.GetAllFilesInDirectory(discsPaths[0]);
                         Platform.runLater(() -> controller.displayUsers(availableUsers));
                         break;

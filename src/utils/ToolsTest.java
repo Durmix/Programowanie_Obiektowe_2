@@ -26,7 +26,7 @@ class ToolsTest {
 
     @Test
     public void GetAllFilesInDirectoryTestExistingDirectory() {
-        List<String> testList = Tools.GetAllFilesInDirectory("D:\\TestData\\TestFolder");
+        List<String> testList = Tools.GetAllFilesInDirectory("D:\\TestData\\");
         List<String> secondTestList = new ArrayList<>();
         secondTestList.add("File1.txt");
         secondTestList.add("File2.txt");
