@@ -55,6 +55,21 @@ public class ClientController {
     }
 
     @FXML
+    private void setClientUserName(String userName) {
+        clientUserName.setText("Logged as: " + userName);
+    }
+
+    @FXML
+    private void setLocalFolderPath(String path) {
+        localFolderPath.setText("In directory: " + path);
+    }
+
+    @FXML
+    private void setCurrentStatus(String status) {
+        currentStatus.setText("Status: " + status);
+    }
+
+    @FXML
     protected void displayFiles(List<String> files) {
         ObservableList<String> items = observableArrayList();
         items.addAll(files);
@@ -71,12 +86,12 @@ public class ClientController {
     @FXML
     private void sendButtonAction() {
         ReadOnlyObjectProperty<String> file = localFiles.getSelectionModel().selectedItemProperty();
-        String filename = file.getValue();
+        String fileName = file.getValue();
         file = connectedUsers.getSelectionModel().selectedItemProperty();
         String owner = file.getValue();
 
-        System.out.println("Sending " + filename + " to " + owner);
-        ClientMain.clientThread.
+        System.out.println("Sending " + fileName + " to " + owner);
+        ClientMain.clientThread.sendFile(fileName, owner);
     }
 
 }

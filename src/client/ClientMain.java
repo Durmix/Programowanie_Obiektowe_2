@@ -26,10 +26,14 @@ public class ClientMain extends Application {
 
     protected static ClientController controller;
 
+    static public void setCurrentStatus(String status) {
+        controller.setCurrentStatusLabel(status);
+    }
+
     @Override
     public void start(Stage mainStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        Parent main = loader.load(getClass().getResourceAsStream("ClientView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ClientView.fxml"));
+        Parent main = loader.load();
         controller = loader.getController();
 
         controller.displayFiles(Tools.GetAllFilesInDirectory(path));
@@ -60,6 +64,7 @@ public class ClientMain extends Application {
         Parameters parameters = getParameters();
         List<String> params = parameters.getUnnamed();
         userName = params.get(0);
+        path = params.get(1);
         threads = Executors.newFixedThreadPool(5);
     }
 
@@ -86,10 +91,6 @@ public class ClientMain extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    static public void setCurrentStatus(String status) {
-        controller.setCurrentStatusLabel(status);
     }
 
     public static void main(String[] args) {

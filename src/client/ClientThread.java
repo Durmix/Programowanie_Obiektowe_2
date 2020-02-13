@@ -14,14 +14,14 @@ public class ClientThread {
 
     private List<FileHolder> filesToSend;
 
-    public ClientThread(String ip, int port, String path, String userName, ExecutorService threads) throws IOException {
+    protected ClientThread(String ip, int port, String path, String userName, ExecutorService threads) throws IOException {
         Socket socket = new Socket(ip, port);
         ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
         ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
         outputStream.writeObject(userName);
         this.path = path;
         filesToSend = new ArrayList<>();
-        ClientSynchronizer synchronizer = new ClientSynchronizer(inputStream, outputStream, threads, filesToSend, userName);
+        ClientSynchronizer synchronizer = new ClientSynchronizer(inputStream, outputStream, path, threads, filesToSend, userName);
         threads.submit(synchronizer::synchronize);
     }
 

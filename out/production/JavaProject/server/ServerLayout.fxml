@@ -19,7 +19,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#pickDiscFive" text="Disc 5" />
             </items>
         </MenuButton>
-        <Button fx:id="closeButton" onAction="#closeButtonAction" layoutX="301.0" layoutY="300.0" mnemonicParsing="false" text="Exit" textFill="#1480b1"/>
+        <Button fx:id="closeButton" onAction="#closeButtonAction" layoutX="301.0" layoutY="300.0" mnemonicParsing="false" text="Disconnect" textFill="#1480b1"/>
         <ListView fx:id="activeUsers" layoutX="256.0" layoutY="62.0" onMouseClicked="#displayFilesFromDisc" prefHeight="200.0" prefWidth="200.0" />
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="301.0" layoutY="35.0" prefHeight="17.0" prefWidth="110.0" text="Active users" />
     </children>

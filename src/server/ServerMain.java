@@ -64,7 +64,7 @@ public class ServerMain extends Application {
     public void stop() {
         threads.shutdown();
         threads.shutdownNow();
-        System.out.println("Server shutdown...");
+        System.out.println("Server disconnected");
         System.exit(0);
     }
 
