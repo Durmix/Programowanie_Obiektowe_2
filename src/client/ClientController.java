@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -25,6 +26,9 @@ public class ClientController {
     private Button sendButton;
 
     @FXML
+    private Button closeButton;
+
+    @FXML
     private Label currentStatus;
 
     @FXML
@@ -37,7 +41,7 @@ public class ClientController {
     private ListView<String> localFiles;
 
     @FXML
-    private ListView<String> connectedUsers;
+    private ListView<String> activeUsers;
 
     @FXML
     protected void setClientUserNameLabel(String userName) {
@@ -55,21 +59,6 @@ public class ClientController {
     }
 
     @FXML
-    private void setClientUserName(String userName) {
-        clientUserName.setText("Logged as: " + userName);
-    }
-
-    @FXML
-    private void setLocalFolderPath(String path) {
-        localFolderPath.setText("In directory: " + path);
-    }
-
-    @FXML
-    private void setCurrentStatus(String status) {
-        currentStatus.setText("Status: " + status);
-    }
-
-    @FXML
     protected void displayFiles(List<String> files) {
         ObservableList<String> items = observableArrayList();
         items.addAll(files);
@@ -77,21 +66,27 @@ public class ClientController {
     }
 
     @FXML
-    protected void displayUsers(List<String> users) {
-        ObservableList<String> items = observableArrayList();
-        items.addAll(users);
-        connectedUsers.setItems(items);
+    protected void displayUsers(List<String> loggedUsers) {
+        ObservableList<String> users = observableArrayList();
+        users.addAll(loggedUsers);
+        activeUsers.setItems(users);
     }
 
     @FXML
     private void sendButtonAction() {
         ReadOnlyObjectProperty<String> file = localFiles.getSelectionModel().selectedItemProperty();
         String fileName = file.getValue();
-        file = connectedUsers.getSelectionModel().selectedItemProperty();
+        file = activeUsers.getSelectionModel().selectedItemProperty();
         String owner = file.getValue();
 
         System.out.println("Sending " + fileName + " to " + owner);
         ClientMain.clientThread.sendFile(fileName, owner);
+    }
+
+    @FXML
+    private void closeButtonAction() {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 
 }

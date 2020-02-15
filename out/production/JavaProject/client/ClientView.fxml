@@ -16,7 +16,8 @@
             </font></Label>
         <Label fx:id="localFolderPath" alignment="CENTER" contentDisplay="CENTER" layoutY="31.0" prefHeight="17.0" prefWidth="480.0" text="Path" textAlignment="CENTER" />
         <Button fx:id="sendButton" layoutX="348.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#sendButtonAction" text="Send" />
-        <ListView fx:id="connectedUsers" layoutX="271.0" layoutY="65.0" prefHeight="234.0" prefWidth="200.0" />
+        <Button fx:id="closeButton" onMouseClicked="#closeButtonAction" layoutX="348.0" layoutY="343.0" mnemonicParsing="false" text="Disconnect" textFill="#1480b1"/>
+        <ListView fx:id="activeUsers" layoutX="271.0" layoutY="65.0" prefHeight="234.0" prefWidth="200.0" />
         <Label fx:id="currentStatus" layoutX="14.0" layoutY="363.0" prefHeight="17.0" prefWidth="458.0" text="Label" />
     </children>
 </AnchorPane>

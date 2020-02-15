@@ -8,7 +8,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import utils.Tools;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.*;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -26,12 +28,14 @@ public class ClientMain extends Application {
 
     protected static ClientController controller;
 
+    private File styleFile = new File("C:\\Users\\Durmaje\\IdeaProjects\\JavaProject\\src\\client\\Style.css");
+
     static public void setCurrentStatus(String status) {
         controller.setCurrentStatusLabel(status);
     }
 
     @Override
-    public void start(Stage mainStage) throws Exception {
+    public void start(Stage mainPage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ClientView.fxml"));
         Parent main = loader.load();
         controller = loader.getController();
@@ -40,12 +44,13 @@ public class ClientMain extends Application {
         controller.setClientUserNameLabel(userName);
         controller.setLocalFolderPathLabel(path);
 
-        mainStage.setTitle("CLIENT");
-        Scene scene = new Scene(main, 480, 400);
-        mainStage.setScene(scene);
-        scene.getStylesheets().add(ClientMain.class.getResource("style.css").toExternalForm());
-        mainStage.setResizable(false);
-        mainStage.show();
+        mainPage.setTitle("CLIENT");
+        mainPage.setResizable(false);
+        Scene mainScene = new Scene(main, 480, 400);
+        mainPage.setScene(mainScene);
+        String style = getStyleFromFile(styleFile);
+        mainScene.getStylesheets().add(style);
+        mainPage.show();
 
         clientThread = new ClientThread("127.0.0.1", 1337, path, userName, threads);
         threads.submit(this::directoryManager);
@@ -90,6 +95,14 @@ public class ClientMain extends Application {
             //
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private String getStyleFromFile(File style) {
+        try {
+            return style.toURI().toURL().toString();
+        } catch (MalformedURLException e) {
+            return null;
         }
     }
 

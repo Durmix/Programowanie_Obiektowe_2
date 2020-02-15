@@ -49,11 +49,9 @@ public class ServerMain extends Application {
         Scene mainScene = new Scene(main, 450, 400);
         mainPage.setScene(mainScene);
         String style = getStyleFromFile(styleFile);
-        if (style == null) {
-
-        }
         mainScene.getStylesheets().add(style);
         mainPage.show();
+
         availableUsers = Tools.GetAllFilesInDirectory(discsPaths[0]);
         controller.displayUsers(availableUsers);
         threads.submit(this::directoryManager);

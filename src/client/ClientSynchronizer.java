@@ -88,7 +88,6 @@ public class ClientSynchronizer {
                     });
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
                 return;
             } catch (SocketException e) {
                 e.printStackTrace();
