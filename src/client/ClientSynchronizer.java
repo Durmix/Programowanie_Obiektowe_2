@@ -9,20 +9,51 @@ import java.net.SocketException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
+/**
+ * Class synchronize local folders with server
+ * @author Kacper Durmaj (215712@edu.p.lodz.pl)
+ */
 public class ClientSynchronizer {
 
+    /**
+     * Instance of ObjectOutputStream
+     */
     private ObjectOutputStream outputStream;
 
+    /**
+     * Instance of ObjectOutputStream
+     */
     private ObjectInputStream inputStream;
 
+    /**
+     * Thread pool
+     */
     private ExecutorService threads;
 
+    /**
+     * Path to client's local folder
+     */
     private String path;
 
+    /**
+     * List of files to send to other users
+     */
     private List<FileHolder> filesToSend;
 
+    /**
+     * Username of a client
+     */
     private String userName;
 
+    /**
+     * Constructor
+     * @param inputStream input stream for client
+     * @param outputStream output stream for client
+     * @param path path to client's local folder
+     * @param threads thread pool
+     * @param filesToSend list of files to send to other users
+     * @param userName client's username
+     */
     protected ClientSynchronizer(ObjectInputStream inputStream, ObjectOutputStream outputStream, String path, ExecutorService threads, List<FileHolder> filesToSend, String userName) {
         this.inputStream = inputStream;
         this.outputStream = outputStream;
@@ -32,6 +63,9 @@ public class ClientSynchronizer {
         this.userName = userName;
     }
 
+    /**
+     * Method keeps server discs and local folders up to date to each other
+     */
     protected void synchronize() {
         while(true) {
             try {

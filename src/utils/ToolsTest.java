@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Test class of Tools class
+ * @author Kacper Durmaj (215712@edu.p.lodz.pl)
+ */
 class ToolsTest {
 
     @Test

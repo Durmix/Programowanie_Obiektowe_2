@@ -2,6 +2,10 @@ package utils;
 
 import java.io.Serializable;
 
+/**
+ * Class used for transferring files between server and clients
+ * @author Kacper Durmaj (215712@edu.p.lodz.pl)
+ */
 public class FileHolder implements Serializable {
 
     private String owner;

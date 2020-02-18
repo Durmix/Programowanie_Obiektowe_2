@@ -14,28 +14,56 @@ import java.util.List;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
+/**
+ * JavaFX controller for server application
+ * @author Kacper Durmaj (215712@edu.p.lodz.pl)
+ */
 public class ServerController {
 
+    /**
+     * Disc from which files are displayed
+     */
     private String activeDisc = "Disc 1";
 
+    /**
+     * Path where server discs are saved
+     */
     private String basePath = "D:\\ServerData\\";
 
+    /**
+     * Constructor
+     */
     public ServerController() {
 
     }
 
+    /**
+     * List of users who have logged in to server at least once
+     */
     @FXML
     private ListView<String> activeUsers;
 
+    /**
+     * List of files of the current user
+     */
     @FXML
     private ListView<String> userFiles;
 
+    /**
+     * Menu to switch server disc
+     */
     @FXML
     private MenuButton discSwitchButton;
 
+    /**
+     * Button which shutdown server application
+     */
     @FXML
     Button closeButton;
 
+    /**
+     * Method picks disc from which files are displayed
+     */
     @FXML
     private void pickDiscOne() {
         activeDisc = "Disc 1";
@@ -43,6 +71,9 @@ public class ServerController {
         displayFilesFromDisc();
     }
 
+    /**
+     * Method picks disc from which files are displayed
+     */
     @FXML
     private void pickDiscTwo() {
         activeDisc = "Disc 2";
@@ -50,6 +81,9 @@ public class ServerController {
         displayFilesFromDisc();
     }
 
+    /**
+     * Method picks disc from which files are displayed
+     */
     @FXML
     private void pickDiscThree() {
         activeDisc = "Disc 3";
@@ -57,6 +91,9 @@ public class ServerController {
         displayFilesFromDisc();
     }
 
+    /**
+     * Method picks disc from which files are displayed
+     */
     @FXML
     private void pickDiscFour() {
         activeDisc = "Disc 4";
@@ -64,6 +101,9 @@ public class ServerController {
         displayFilesFromDisc();
     }
 
+    /**
+     * Method picks disc from which files are displayed
+     */
     @FXML
     private void pickDiscFive() {
         activeDisc = "Disc 5";
@@ -71,6 +111,9 @@ public class ServerController {
         displayFilesFromDisc();
     }
 
+    /**
+     * Method displays files of current user and directory
+     */
     @FXML
     private void displayFilesFromDisc() {
         ReadOnlyObjectProperty<String> userModel = activeUsers.getSelectionModel().selectedItemProperty();
@@ -84,6 +127,10 @@ public class ServerController {
         System.out.println(basePath + activeDisc + "\\" + user + "\\");
     }
 
+    /**
+     * Method displays users who have logged in to the server at least once
+     * @param loggedUsers List of users
+     */
     @FXML
     protected void displayUsers(List<String> loggedUsers) {
         ObservableList<String> users = observableArrayList();
@@ -91,6 +138,9 @@ public class ServerController {
         activeUsers.setItems(users);
     }
 
+    /**
+     * Method shutdowns server
+     */
     @FXML
     private void closeButtonAction() {
         Stage stage = (Stage) closeButton.getScene().getWindow();

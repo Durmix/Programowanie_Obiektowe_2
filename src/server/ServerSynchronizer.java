@@ -9,38 +9,75 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
+/**
+ * Class synchronize server with local folders
+ * @author Kacper Durmaj (215712@edu.p.lodz.pl)
+ */
 public class ServerSynchronizer {
 
+    /**
+     * Instance of ObjectOutputStream
+     */
     private ObjectOutputStream outputStream;
 
+    /**
+     * Instance of ObjectOutputStream
+     */
     private ObjectInputStream inputStream;
 
+    /**
+     * Thread pool
+     */
     private ExecutorService threads;
 
+    /**
+     * Paths to server discs
+     */
     private String[] discsPaths;
 
+    /**
+     * User for whom the synchronizer was created
+     */
     private String userName;
 
+    /**
+     * Socket used for connection between server and client
+     */
     private Socket socket;
 
-    private List<String> availableUsers;
+    /**
+     * List of logged users
+     */
+    private List<String> activeUsers;
 
-
-    public ServerSynchronizer(ObjectOutputStream outputStream, ObjectInputStream inputStream, ExecutorService threads, String[] discsPaths, String userName, Socket socket, List<String> availableUsers) {
+    /**
+     * Constructor for ServerSynchronizer
+     * @param outputStream output stream for server
+     * @param inputStream input stream for server
+     * @param threads thread pool
+     * @param discsPaths paths to server discs
+     * @param userName client for whom it is being created
+     * @param socket connecting server with client
+     * @param activeUsers list of logged users
+     */
+    public ServerSynchronizer(ObjectOutputStream outputStream, ObjectInputStream inputStream, ExecutorService threads, String[] discsPaths, String userName, Socket socket, List<String> activeUsers) {
         this.outputStream = outputStream;
         this.inputStream = inputStream;
         this.threads = threads;
         this.discsPaths = discsPaths;
         this.userName = userName;
         this.socket = socket;
-        this.availableUsers = availableUsers;
+        this.activeUsers = activeUsers;
     }
 
-    void synchronizeLocalWithServer() {
+    /**
+     * Method keeps server discs and local folders up to date to each other
+     */
+    protected void synchronizeLocalWithServer() {
         while (true) {
             try {
-                System.out.println("List sent to " + userName + ": " + ServerMain.availableUsers);
-                outputStream.writeObject(ServerMain.availableUsers);
+                System.out.println("List sent to " + userName + ": " + ServerMain.activeUsers);
+                outputStream.writeObject(ServerMain.activeUsers);
 
                 List<String> clientFiles = (List<String>) inputStream.readObject();
 
@@ -48,11 +85,11 @@ public class ServerSynchronizer {
 
                 List<String> missingOnServer = clientFiles.stream()
                         .filter(i -> !serverFiles.contains(i))
-                        .collect (Collectors.toList());
+                        .collect(Collectors.toList());
 
                 List<String> missingOnClient = serverFiles.stream()
                         .filter(i -> !clientFiles.contains(i))
-                        .collect (Collectors.toList());
+                        .collect(Collectors.toList());
 
                 outputStream.writeObject(missingOnServer);
 
@@ -96,9 +133,8 @@ public class ServerSynchronizer {
                     e1.printStackTrace();
                 }
                 System.out.println("Connection dropped with: " + userName);
-                availableUsers.remove(userName);
-                System.out.println(availableUsers);
-                //ServerMain.displayUsers(availableUsers);
+                activeUsers.remove(userName);
+                System.out.println(activeUsers);
 
                 return;
             } catch (Exception e) {
